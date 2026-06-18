@@ -1,0 +1,110 @@
+openapi: 3.0.3
+
+info:
+  title: Calendar Service API
+  version: 1.0.0
+  description: API specification for calendar and appointment services.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /calendar/meetings/create:
+    post:
+      operationId: CreateMeeting
+      summary: Create a new meeting
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: participant
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Meeting created successfully
+
+  /calendar/meetings/cancel:
+    post:
+      operationId: CancelMeeting
+      summary: Cancel an existing meeting
+      parameters:
+        - name: meetingId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Meeting cancelled successfully
+
+  /calendar/meetings/update:
+    post:
+      operationId: UpdateMeeting
+      summary: Update an existing meeting
+      parameters:
+        - name: meetingId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Meeting updated successfully
+
+  /calendar/availability:
+    get:
+      operationId: CheckAvailability
+      summary: Check calendar availability
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Availability returned successfully
+
+  /calendar/events:
+    get:
+      operationId: ListEvents
+      summary: List calendar events for a date
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Calendar events returned successfully

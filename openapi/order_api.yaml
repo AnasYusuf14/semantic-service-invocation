@@ -1,0 +1,95 @@
+openapi: 3.0.3
+
+info:
+  title: Order Service API
+  version: 1.0.0
+  description: API specification for order management services.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /orders/create:
+    post:
+      operationId: CreateOrder
+      summary: Create a new order
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: quantity
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order created successfully
+
+  /orders/cancel:
+    post:
+      operationId: CancelOrder
+      summary: Cancel an existing order
+      parameters:
+        - name: orderId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Order cancelled successfully
+
+  /orders/track:
+    get:
+      operationId: TrackOrder
+      summary: Track order delivery status
+      parameters:
+        - name: orderId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Order tracking information returned successfully
+
+  /orders/return:
+    post:
+      operationId: ReturnOrder
+      summary: Return an existing order
+      parameters:
+        - name: orderId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: reason
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Order return request created successfully
+
+  /orders/details:
+    get:
+      operationId: GetOrderDetails
+      summary: Get detailed information about an order
+      parameters:
+        - name: orderId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Order details returned successfully

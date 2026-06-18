@@ -1,0 +1,95 @@
+openapi: 3.0.3
+
+info:
+  title: Product Service API
+  version: 1.0.0
+  description: API specification for product search and product information services.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /products/search:
+    get:
+      operationId: SearchProduct
+      summary: Search products by keyword and category
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: maxPrice
+          in: query
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Product search results returned successfully
+
+  /products/details:
+    get:
+      operationId: GetProductDetails
+      summary: Get detailed information about a product
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product details returned successfully
+
+  /products/compare:
+    get:
+      operationId: CompareProducts
+      summary: Compare two products
+      parameters:
+        - name: productId1
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: productId2
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product comparison returned successfully
+
+  /products/availability:
+    get:
+      operationId: CheckProductAvailability
+      summary: Check whether a product is available
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product availability returned successfully
+
+  /products/reviews:
+    get:
+      operationId: GetProductReviews
+      summary: Get reviews for a product
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product reviews returned successfully

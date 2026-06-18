@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Weather Service API
+  version: 1.0.0
+  description: API for weather-related service invocation tasks.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /weather/current:
+    get:
+      operationId: GetCurrentWeather
+      summary: Get current weather for a city
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: unit
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [celsius, fahrenheit]
+      responses:
+        "200":
+          description: Current weather returned successfully
+
+  /weather/forecast:
+    get:
+      operationId: GetForecast
+      summary: Get weather forecast for a city and date
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: unit
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [celsius, fahrenheit]
+      responses:
+        "200":
+          description: Forecast returned successfully
+
+  /weather/air-quality:
+    get:
+      operationId: GetAirQuality
+      summary: Get air quality index for a city
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Air quality data returned successfully
+
+  /weather/temperature:
+    get:
+      operationId: GetTemperature
+      summary: Get temperature for a city
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: unit
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [celsius, fahrenheit]
+      responses:
+        "200":
+          description: Temperature returned successfully
+
+  /weather/wind:
+    get:
+      operationId: GetWindSpeed
+      summary: Get wind speed for a city
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Wind speed returned successfully

@@ -1,0 +1,115 @@
+openapi: 3.0.3
+
+info:
+  title: Travel Service API
+  version: 1.0.0
+  description: API specification for flight and hotel service invocation tasks.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /travel/flights/search:
+    get:
+      operationId: SearchFlight
+      summary: Search available flights
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flight search results returned successfully
+
+  /travel/flights/book:
+    post:
+      operationId: BookFlight
+      summary: Book a flight ticket
+      parameters:
+        - name: flightId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: passengerName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flight booked successfully
+
+  /travel/flights/cancel:
+    post:
+      operationId: CancelFlight
+      summary: Cancel a flight booking
+      parameters:
+        - name: bookingId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flight booking cancelled successfully
+
+  /travel/hotels/search:
+    get:
+      operationId: SearchHotel
+      summary: Search available hotels
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: checkIn
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: nights
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Hotel search results returned successfully
+
+  /travel/hotels/book:
+    post:
+      operationId: BookHotel
+      summary: Book a hotel room
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: guestName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: nights
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Hotel booked successfully
