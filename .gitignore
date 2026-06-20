@@ -1,14 +1,53 @@
-__pycache__/
-*.pyc
+Python cache
+
+pycache/
+*.py[cod]
+*$py.class
+
+Virtual environments
 
 .venv/
+.venv311/
 venv/
+env/
+
+macOS
 
 .DS_Store
+
+IDEs
 
 .idea/
 .vscode/
 
+Environment variables
+
 .env
+.env.*
+
+Logs
 
 *.log
+
+Jupyter
+
+.ipynb_checkpoints/
+
+Pytest
+
+.pytest_cache/
+
+Coverage
+
+.coverage
+htmlcov/
+
+Build files
+
+build/
+dist/
+*.egg-info/
+
+OS files
+
+Thumbs.db
