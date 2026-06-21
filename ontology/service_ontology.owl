@@ -1,966 +1,930 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rdf:RDF
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns="http://www.semanticweb.org/ontologies/service-ontology#"
-     xml:base="http://www.semanticweb.org/ontologies/service-ontology">
-
-    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/service-ontology">
-        <rdfs:label>LLM-Based Semantic Service Invocation Ontology</rdfs:label>
-        <rdfs:comment>OWL ontology for semantic service invocation across Weather, Travel, Product, Order, and Calendar domains.</rdfs:comment>
-    </owl:Ontology>
-
-    <!-- ================================================================ -->
-    <!--  Classes                                                          -->
-    <!-- ================================================================ -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain">
-        <rdfs:label>ServiceDomain</rdfs:label>
-        <rdfs:comment>A domain grouping related API operations.</rdfs:comment>
-    </owl:Class>
-
-    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Operation">
-        <rdfs:label>Operation</rdfs:label>
-        <rdfs:comment>An API operation identified by its operationId.</rdfs:comment>
-    </owl:Class>
-
-    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Endpoint">
-        <rdfs:label>Endpoint</rdfs:label>
-        <rdfs:comment>An HTTP endpoint associated with an operation.</rdfs:comment>
-    </owl:Class>
-
-    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Parameter">
-        <rdfs:label>Parameter</rdfs:label>
-        <rdfs:comment>A query parameter accepted by an operation.</rdfs:comment>
-    </owl:Class>
-
-    <!-- ================================================================ -->
-    <!--  Object Properties                                                -->
-    <!-- ================================================================ -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#hasOperation">
-        <rdfs:label>hasOperation</rdfs:label>
-        <rdfs:comment>Links a ServiceDomain to its Operations.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:range  rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-    </owl:ObjectProperty>
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#hasEndpoint">
-        <rdfs:label>hasEndpoint</rdfs:label>
-        <rdfs:comment>Links an Operation to its Endpoint.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:range  rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-    </owl:ObjectProperty>
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#hasParameter">
-        <rdfs:label>hasParameter</rdfs:label>
-        <rdfs:comment>Links an Operation to its Parameters.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:range  rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-    </owl:ObjectProperty>
-
-    <!-- ================================================================ -->
-    <!--  Data Properties                                                  -->
-    <!-- ================================================================ -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#operationId">
-        <rdfs:label>operationId</rdfs:label>
-        <rdfs:comment>The operationId from the OpenAPI specification.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#httpMethod">
-        <rdfs:label>httpMethod</rdfs:label>
-        <rdfs:comment>HTTP method (GET or POST).</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#endpointPath">
-        <rdfs:label>endpointPath</rdfs:label>
-        <rdfs:comment>The URL path of the endpoint.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#parameterName">
-        <rdfs:label>parameterName</rdfs:label>
-        <rdfs:comment>The parameter name from the OpenAPI specification.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#parameterType">
-        <rdfs:label>parameterType</rdfs:label>
-        <rdfs:comment>The schema type of the parameter (string, integer, number).</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/service-ontology#isRequired">
-        <rdfs:label>isRequired</rdfs:label>
-        <rdfs:comment>Whether the parameter is required.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:range  rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    </owl:DatatypeProperty>
-
-    <!-- ================================================================ -->
-    <!--  Service Domain Individuals                                       -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Weather">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:label>Weather</rdfs:label>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetForecast"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetAirQuality"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeed"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Travel">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:label>Travel</rdfs:label>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookFlight"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelFlight"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookHotel"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Product">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:label>Product</rdfs:label>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetails"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailability"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviews"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Order">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:label>Order</rdfs:label>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelOrder"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#TrackOrder"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetails"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#Calendar">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ServiceDomain"/>
-        <rdfs:label>Calendar</rdfs:label>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelMeeting"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability"/>
-        <hasOperation rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ListEvents"/>
-    </owl:NamedIndividual>
-
-    <!-- ================================================================ -->
-    <!--  Weather Operations                                               -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetCurrentWeather</rdfs:label>
-        <operationId>GetCurrentWeather</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeatherEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather_city"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather_unit"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeatherEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetCurrentWeatherEndpoint</rdfs:label>
-        <endpointPath>/weather/current</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetCurrentWeather_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetCurrentWeather_unit">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetCurrentWeather_unit</rdfs:label>
-        <parameterName>unit</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetForecast">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetForecast</rdfs:label>
-        <operationId>GetForecast</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetForecastEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_city"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_date"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_unit"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetForecastEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetForecastEndpoint</rdfs:label>
-        <endpointPath>/weather/forecast</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetForecast_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetForecast_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetForecast_unit">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetForecast_unit</rdfs:label>
-        <parameterName>unit</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetAirQuality">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetAirQuality</rdfs:label>
-        <operationId>GetAirQuality</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetAirQualityEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetAirQuality_city"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetAirQualityEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetAirQualityEndpoint</rdfs:label>
-        <endpointPath>/weather/air-quality</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetAirQuality_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetAirQuality_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetTemperature</rdfs:label>
-        <operationId>GetTemperature</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetTemperatureEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature_city"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature_unit"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetTemperatureEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetTemperatureEndpoint</rdfs:label>
-        <endpointPath>/weather/temperature</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetTemperature_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetTemperature_unit">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetTemperature_unit</rdfs:label>
-        <parameterName>unit</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeed">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetWindSpeed</rdfs:label>
-        <operationId>GetWindSpeed</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeedEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeed_city"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeedEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetWindSpeedEndpoint</rdfs:label>
-        <endpointPath>/weather/wind</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetWindSpeed_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetWindSpeed_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <!-- ================================================================ -->
-    <!--  Travel Operations                                                -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>SearchFlight</rdfs:label>
-        <operationId>SearchFlight</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchFlightEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_from"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_to"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_date"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchFlightEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>SearchFlightEndpoint</rdfs:label>
-        <endpointPath>/travel/flights/search</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_from">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchFlight_from</rdfs:label>
-        <parameterName>from</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_to">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchFlight_to</rdfs:label>
-        <parameterName>to</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchFlight_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchFlight_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookFlight">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>BookFlight</rdfs:label>
-        <operationId>BookFlight</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookFlightEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookFlight_flightId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookFlight_passengerName"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookFlightEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>BookFlightEndpoint</rdfs:label>
-        <endpointPath>/travel/flights/book</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookFlight_flightId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>BookFlight_flightId</rdfs:label>
-        <parameterName>flightId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookFlight_passengerName">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>BookFlight_passengerName</rdfs:label>
-        <parameterName>passengerName</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelFlight">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CancelFlight</rdfs:label>
-        <operationId>CancelFlight</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelFlightEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelFlight_bookingId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelFlightEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CancelFlightEndpoint</rdfs:label>
-        <endpointPath>/travel/flights/cancel</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelFlight_bookingId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CancelFlight_bookingId</rdfs:label>
-        <parameterName>bookingId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>SearchHotel</rdfs:label>
-        <operationId>SearchHotel</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchHotelEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_city"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_checkIn"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_nights"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchHotelEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>SearchHotelEndpoint</rdfs:label>
-        <endpointPath>/travel/hotels/search</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_city">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchHotel_city</rdfs:label>
-        <parameterName>city</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_checkIn">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchHotel_checkIn</rdfs:label>
-        <parameterName>checkIn</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchHotel_nights">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchHotel_nights</rdfs:label>
-        <parameterName>nights</parameterName>
-        <parameterType>integer</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookHotel">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>BookHotel</rdfs:label>
-        <operationId>BookHotel</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookHotelEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_hotelId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_guestName"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_nights"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookHotelEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>BookHotelEndpoint</rdfs:label>
-        <endpointPath>/travel/hotels/book</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_hotelId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>BookHotel_hotelId</rdfs:label>
-        <parameterName>hotelId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_guestName">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>BookHotel_guestName</rdfs:label>
-        <parameterName>guestName</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#BookHotel_nights">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>BookHotel_nights</rdfs:label>
-        <parameterName>nights</parameterName>
-        <parameterType>integer</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <!-- ================================================================ -->
-    <!--  Product Operations                                               -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>SearchProduct</rdfs:label>
-        <operationId>SearchProduct</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchProductEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_keyword"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_category"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_maxPrice"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchProductEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>SearchProductEndpoint</rdfs:label>
-        <endpointPath>/products/search</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_keyword">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchProduct_keyword</rdfs:label>
-        <parameterName>keyword</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_category">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchProduct_category</rdfs:label>
-        <parameterName>category</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#SearchProduct_maxPrice">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>SearchProduct_maxPrice</rdfs:label>
-        <parameterName>maxPrice</parameterName>
-        <parameterType>number</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetails">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetProductDetails</rdfs:label>
-        <operationId>GetProductDetails</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetailsEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetails_productId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetailsEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetProductDetailsEndpoint</rdfs:label>
-        <endpointPath>/products/details</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductDetails_productId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetProductDetails_productId</rdfs:label>
-        <parameterName>productId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CompareProducts</rdfs:label>
-        <operationId>CompareProducts</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CompareProductsEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts_productId1"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts_productId2"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CompareProductsEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CompareProductsEndpoint</rdfs:label>
-        <endpointPath>/products/compare</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts_productId1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CompareProducts_productId1</rdfs:label>
-        <parameterName>productId1</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CompareProducts_productId2">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CompareProducts_productId2</rdfs:label>
-        <parameterName>productId2</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CheckProductAvailability</rdfs:label>
-        <operationId>CheckProductAvailability</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailabilityEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailability_productId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailabilityEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CheckProductAvailabilityEndpoint</rdfs:label>
-        <endpointPath>/products/availability</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckProductAvailability_productId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CheckProductAvailability_productId</rdfs:label>
-        <parameterName>productId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviews">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetProductReviews</rdfs:label>
-        <operationId>GetProductReviews</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviewsEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviews_productId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviewsEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetProductReviewsEndpoint</rdfs:label>
-        <endpointPath>/products/reviews</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetProductReviews_productId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetProductReviews_productId</rdfs:label>
-        <parameterName>productId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <!-- ================================================================ -->
-    <!--  Order Operations                                                 -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CreateOrder</rdfs:label>
-        <operationId>CreateOrder</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateOrderEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_userId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_productId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_quantity"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateOrderEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CreateOrderEndpoint</rdfs:label>
-        <endpointPath>/orders/create</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_userId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateOrder_userId</rdfs:label>
-        <parameterName>userId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_productId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateOrder_productId</rdfs:label>
-        <parameterName>productId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateOrder_quantity">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateOrder_quantity</rdfs:label>
-        <parameterName>quantity</parameterName>
-        <parameterType>integer</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelOrder">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CancelOrder</rdfs:label>
-        <operationId>CancelOrder</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelOrderEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelOrder_orderId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelOrderEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CancelOrderEndpoint</rdfs:label>
-        <endpointPath>/orders/cancel</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelOrder_orderId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CancelOrder_orderId</rdfs:label>
-        <parameterName>orderId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#TrackOrder">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>TrackOrder</rdfs:label>
-        <operationId>TrackOrder</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#TrackOrderEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#TrackOrder_orderId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#TrackOrderEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>TrackOrderEndpoint</rdfs:label>
-        <endpointPath>/orders/track</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#TrackOrder_orderId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>TrackOrder_orderId</rdfs:label>
-        <parameterName>orderId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>ReturnOrder</rdfs:label>
-        <operationId>ReturnOrder</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrderEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder_orderId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder_reason"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrderEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>ReturnOrderEndpoint</rdfs:label>
-        <endpointPath>/orders/return</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder_orderId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>ReturnOrder_orderId</rdfs:label>
-        <parameterName>orderId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ReturnOrder_reason">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>ReturnOrder_reason</rdfs:label>
-        <parameterName>reason</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetails">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>GetOrderDetails</rdfs:label>
-        <operationId>GetOrderDetails</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetailsEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetails_orderId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetailsEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>GetOrderDetailsEndpoint</rdfs:label>
-        <endpointPath>/orders/details</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#GetOrderDetails_orderId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>GetOrderDetails_orderId</rdfs:label>
-        <parameterName>orderId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <!-- ================================================================ -->
-    <!--  Calendar Operations                                              -->
-    <!-- ================================================================ -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CreateMeeting</rdfs:label>
-        <operationId>CreateMeeting</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeetingEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_title"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_date"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_time"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_participant"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeetingEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CreateMeetingEndpoint</rdfs:label>
-        <endpointPath>/calendar/meetings/create</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_title">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateMeeting_title</rdfs:label>
-        <parameterName>title</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateMeeting_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_time">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateMeeting_time</rdfs:label>
-        <parameterName>time</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CreateMeeting_participant">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CreateMeeting_participant</rdfs:label>
-        <parameterName>participant</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelMeeting">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CancelMeeting</rdfs:label>
-        <operationId>CancelMeeting</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelMeetingEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CancelMeeting_meetingId"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelMeetingEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CancelMeetingEndpoint</rdfs:label>
-        <endpointPath>/calendar/meetings/cancel</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CancelMeeting_meetingId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CancelMeeting_meetingId</rdfs:label>
-        <parameterName>meetingId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>UpdateMeeting</rdfs:label>
-        <operationId>UpdateMeeting</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeetingEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_meetingId"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_date"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_time"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeetingEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>UpdateMeetingEndpoint</rdfs:label>
-        <endpointPath>/calendar/meetings/update</endpointPath>
-        <httpMethod>POST</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_meetingId">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>UpdateMeeting_meetingId</rdfs:label>
-        <parameterName>meetingId</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>UpdateMeeting_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#UpdateMeeting_time">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>UpdateMeeting_time</rdfs:label>
-        <parameterName>time</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>CheckAvailability</rdfs:label>
-        <operationId>CheckAvailability</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailabilityEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability_date"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability_time"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailabilityEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>CheckAvailabilityEndpoint</rdfs:label>
-        <endpointPath>/calendar/availability</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CheckAvailability_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#CheckAvailability_time">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>CheckAvailability_time</rdfs:label>
-        <parameterName>time</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ListEvents">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Operation"/>
-        <rdfs:label>ListEvents</rdfs:label>
-        <operationId>ListEvents</operationId>
-        <hasEndpoint rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ListEventsEndpoint"/>
-        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#ListEvents_date"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ListEventsEndpoint">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Endpoint"/>
-        <rdfs:label>ListEventsEndpoint</rdfs:label>
-        <endpointPath>/calendar/events</endpointPath>
-        <httpMethod>GET</httpMethod>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/service-ontology#ListEvents_date">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/service-ontology#Parameter"/>
-        <rdfs:label>ListEvents_date</rdfs:label>
-        <parameterName>date</parameterName>
-        <parameterType>string</parameterType>
-        <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
-    </owl:NamedIndividual>
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://www.semanticweb.org/ontologies/service-ontology"
+         xmlns="http://www.semanticweb.org/ontologies/service-ontology#">
+
+<owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/service-ontology">
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LLM-Based Semantic Service Invocation Ontology</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OWL ontology for semantic service invocation across Weather, Travel, Product, Order, and Calendar domains.</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:about="#hasOperation">
+  <rdfs:domain rdf:resource="#ServiceDomain"/>
+  <rdfs:range rdf:resource="#Operation"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasOperation</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links a ServiceDomain to its Operations.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasEndpoint">
+  <rdfs:domain rdf:resource="#Operation"/>
+  <rdfs:range rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasEndpoint</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links an Operation to its Endpoint.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasParameter">
+  <rdfs:domain rdf:resource="#Operation"/>
+  <rdfs:range rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasParameter</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links an Operation to its Parameters.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#operationId">
+  <rdfs:domain rdf:resource="#Operation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">operationId</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The operationId from the OpenAPI specification.</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#httpMethod">
+  <rdfs:domain rdf:resource="#Endpoint"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">httpMethod</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HTTP method (GET or POST).</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#endpointPath">
+  <rdfs:domain rdf:resource="#Endpoint"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">endpointPath</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The URL path of the endpoint.</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#parameterName">
+  <rdfs:domain rdf:resource="#Parameter"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">parameterName</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The parameter name from the OpenAPI specification.</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#parameterType">
+  <rdfs:domain rdf:resource="#Parameter"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">parameterType</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The schema type of the parameter (string, integer, number).</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#isRequired">
+  <rdfs:domain rdf:resource="#Parameter"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">isRequired</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Whether the parameter is required.</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:Class rdf:about="#ServiceDomain">
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ServiceDomain</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A domain grouping related API operations.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Operation">
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Operation</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An API operation identified by its operationId.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Endpoint">
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Endpoint</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An HTTP endpoint associated with an operation.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Parameter">
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parameter</rdfs:label>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A query parameter accepted by an operation.</rdfs:comment>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#Weather">
+  <rdf:type rdf:resource="#ServiceDomain"/>
+  <hasOperation rdf:resource="#GetCurrentWeather"/>
+  <hasOperation rdf:resource="#GetForecast"/>
+  <hasOperation rdf:resource="#GetAirQuality"/>
+  <hasOperation rdf:resource="#GetTemperature"/>
+  <hasOperation rdf:resource="#GetWindSpeed"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Weather</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetCurrentWeather">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetCurrentWeatherEndpoint"/>
+  <hasParameter rdf:resource="#GetCurrentWeather_city"/>
+  <hasParameter rdf:resource="#GetCurrentWeather_unit"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetCurrentWeather</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetCurrentWeather</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetForecast">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetForecastEndpoint"/>
+  <hasParameter rdf:resource="#GetForecast_city"/>
+  <hasParameter rdf:resource="#GetForecast_date"/>
+  <hasParameter rdf:resource="#GetForecast_unit"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecast</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecast</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetAirQuality">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetAirQualityEndpoint"/>
+  <hasParameter rdf:resource="#GetAirQuality_city"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetAirQuality</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetAirQuality</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetTemperature">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetTemperatureEndpoint"/>
+  <hasParameter rdf:resource="#GetTemperature_city"/>
+  <hasParameter rdf:resource="#GetTemperature_unit"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetTemperature</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetTemperature</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetWindSpeed">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetWindSpeedEndpoint"/>
+  <hasParameter rdf:resource="#GetWindSpeed_city"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetWindSpeed</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetWindSpeed</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetCurrentWeatherEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetCurrentWeatherEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/weather/current</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetCurrentWeather_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetCurrentWeather_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetCurrentWeather_unit">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetCurrentWeather_unit</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unit</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetForecastEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecastEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/weather/forecast</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetForecast_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecast_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetForecast_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecast_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetForecast_unit">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetForecast_unit</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unit</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetAirQualityEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetAirQualityEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/weather/air-quality</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetAirQuality_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetAirQuality_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetTemperatureEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetTemperatureEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/weather/temperature</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetTemperature_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetTemperature_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetTemperature_unit">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetTemperature_unit</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unit</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetWindSpeedEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetWindSpeedEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/weather/wind</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetWindSpeed_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetWindSpeed_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Travel">
+  <rdf:type rdf:resource="#ServiceDomain"/>
+  <hasOperation rdf:resource="#SearchFlight"/>
+  <hasOperation rdf:resource="#BookFlight"/>
+  <hasOperation rdf:resource="#CancelFlight"/>
+  <hasOperation rdf:resource="#SearchHotel"/>
+  <hasOperation rdf:resource="#BookHotel"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Travel</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchFlight">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#SearchFlightEndpoint"/>
+  <hasParameter rdf:resource="#SearchFlight_from"/>
+  <hasParameter rdf:resource="#SearchFlight_to"/>
+  <hasParameter rdf:resource="#SearchFlight_date"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlight</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlight</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookFlight">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#BookFlightEndpoint"/>
+  <hasParameter rdf:resource="#BookFlight_flightId"/>
+  <hasParameter rdf:resource="#BookFlight_passengerName"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookFlight</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookFlight</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelFlight">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CancelFlightEndpoint"/>
+  <hasParameter rdf:resource="#CancelFlight_bookingId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelFlight</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelFlight</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchHotel">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#SearchHotelEndpoint"/>
+  <hasParameter rdf:resource="#SearchHotel_city"/>
+  <hasParameter rdf:resource="#SearchHotel_checkIn"/>
+  <hasParameter rdf:resource="#SearchHotel_nights"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotel</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotel</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookHotel">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#BookHotelEndpoint"/>
+  <hasParameter rdf:resource="#BookHotel_hotelId"/>
+  <hasParameter rdf:resource="#BookHotel_guestName"/>
+  <hasParameter rdf:resource="#BookHotel_nights"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotel</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotel</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchFlightEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlightEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/travel/flights/search</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchFlight_from">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlight_from</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">from</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchFlight_to">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlight_to</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">to</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchFlight_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchFlight_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookFlightEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookFlightEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/travel/flights/book</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookFlight_flightId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookFlight_flightId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">flightId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookFlight_passengerName">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookFlight_passengerName</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">passengerName</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelFlightEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelFlightEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/travel/flights/cancel</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelFlight_bookingId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelFlight_bookingId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bookingId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchHotelEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotelEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/travel/hotels/search</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchHotel_city">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotel_city</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">city</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchHotel_checkIn">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotel_checkIn</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">checkIn</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchHotel_nights">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchHotel_nights</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">nights</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">integer</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookHotelEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotelEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/travel/hotels/book</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookHotel_hotelId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotel_hotelId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hotelId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookHotel_guestName">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotel_guestName</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">guestName</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BookHotel_nights">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BookHotel_nights</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">nights</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">integer</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Product">
+  <rdf:type rdf:resource="#ServiceDomain"/>
+  <hasOperation rdf:resource="#SearchProduct"/>
+  <hasOperation rdf:resource="#GetProductDetails"/>
+  <hasOperation rdf:resource="#CompareProducts"/>
+  <hasOperation rdf:resource="#CheckProductAvailability"/>
+  <hasOperation rdf:resource="#GetProductReviews"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Product</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchProduct">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#SearchProductEndpoint"/>
+  <hasParameter rdf:resource="#SearchProduct_keyword"/>
+  <hasParameter rdf:resource="#SearchProduct_category"/>
+  <hasParameter rdf:resource="#SearchProduct_maxPrice"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProduct</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProduct</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductDetails">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetProductDetailsEndpoint"/>
+  <hasParameter rdf:resource="#GetProductDetails_productId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductDetails</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductDetails</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CompareProducts">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CompareProductsEndpoint"/>
+  <hasParameter rdf:resource="#CompareProducts_productId1"/>
+  <hasParameter rdf:resource="#CompareProducts_productId2"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CompareProducts</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CompareProducts</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckProductAvailability">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CheckProductAvailabilityEndpoint"/>
+  <hasParameter rdf:resource="#CheckProductAvailability_productId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckProductAvailability</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckProductAvailability</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductReviews">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetProductReviewsEndpoint"/>
+  <hasParameter rdf:resource="#GetProductReviews_productId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductReviews</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductReviews</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchProductEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProductEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/products/search</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchProduct_keyword">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProduct_keyword</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">keyword</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchProduct_category">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProduct_category</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">category</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SearchProduct_maxPrice">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SearchProduct_maxPrice</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">maxPrice</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">number</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductDetailsEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductDetailsEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/products/details</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductDetails_productId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductDetails_productId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CompareProductsEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CompareProductsEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/products/compare</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CompareProducts_productId1">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CompareProducts_productId1</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId1</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CompareProducts_productId2">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CompareProducts_productId2</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId2</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckProductAvailabilityEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckProductAvailabilityEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/products/availability</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckProductAvailability_productId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckProductAvailability_productId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductReviewsEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductReviewsEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/products/reviews</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetProductReviews_productId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetProductReviews_productId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Order">
+  <rdf:type rdf:resource="#ServiceDomain"/>
+  <hasOperation rdf:resource="#CreateOrder"/>
+  <hasOperation rdf:resource="#CancelOrder"/>
+  <hasOperation rdf:resource="#TrackOrder"/>
+  <hasOperation rdf:resource="#ReturnOrder"/>
+  <hasOperation rdf:resource="#GetOrderDetails"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Order</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateOrder">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CreateOrderEndpoint"/>
+  <hasParameter rdf:resource="#CreateOrder_userId"/>
+  <hasParameter rdf:resource="#CreateOrder_productId"/>
+  <hasParameter rdf:resource="#CreateOrder_quantity"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrder</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrder</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelOrder">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CancelOrderEndpoint"/>
+  <hasParameter rdf:resource="#CancelOrder_orderId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelOrder</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelOrder</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#TrackOrder">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#TrackOrderEndpoint"/>
+  <hasParameter rdf:resource="#TrackOrder_orderId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TrackOrder</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TrackOrder</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ReturnOrder">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#ReturnOrderEndpoint"/>
+  <hasParameter rdf:resource="#ReturnOrder_orderId"/>
+  <hasParameter rdf:resource="#ReturnOrder_reason"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ReturnOrder</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ReturnOrder</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetOrderDetails">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#GetOrderDetailsEndpoint"/>
+  <hasParameter rdf:resource="#GetOrderDetails_orderId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetOrderDetails</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetOrderDetails</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateOrderEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrderEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/orders/create</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateOrder_userId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrder_userId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">userId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateOrder_productId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrder_productId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">productId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateOrder_quantity">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateOrder_quantity</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">quantity</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">integer</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelOrderEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelOrderEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/orders/cancel</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelOrder_orderId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelOrder_orderId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">orderId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#TrackOrderEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TrackOrderEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/orders/track</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#TrackOrder_orderId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TrackOrder_orderId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">orderId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ReturnOrderEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ReturnOrderEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/orders/return</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ReturnOrder_orderId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ReturnOrder_orderId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">orderId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ReturnOrder_reason">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ReturnOrder_reason</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">reason</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetOrderDetailsEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetOrderDetailsEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/orders/details</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#GetOrderDetails_orderId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GetOrderDetails_orderId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">orderId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Calendar">
+  <rdf:type rdf:resource="#ServiceDomain"/>
+  <hasOperation rdf:resource="#CreateMeeting"/>
+  <hasOperation rdf:resource="#CancelMeeting"/>
+  <hasOperation rdf:resource="#UpdateMeeting"/>
+  <hasOperation rdf:resource="#CheckAvailability"/>
+  <hasOperation rdf:resource="#ListEvents"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Calendar</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeeting">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CreateMeetingEndpoint"/>
+  <hasParameter rdf:resource="#CreateMeeting_title"/>
+  <hasParameter rdf:resource="#CreateMeeting_date"/>
+  <hasParameter rdf:resource="#CreateMeeting_time"/>
+  <hasParameter rdf:resource="#CreateMeeting_participant"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelMeeting">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CancelMeetingEndpoint"/>
+  <hasParameter rdf:resource="#CancelMeeting_meetingId"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelMeeting</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelMeeting</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UpdateMeeting">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#UpdateMeetingEndpoint"/>
+  <hasParameter rdf:resource="#UpdateMeeting_meetingId"/>
+  <hasParameter rdf:resource="#UpdateMeeting_date"/>
+  <hasParameter rdf:resource="#UpdateMeeting_time"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeeting</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeeting</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckAvailability">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#CheckAvailabilityEndpoint"/>
+  <hasParameter rdf:resource="#CheckAvailability_date"/>
+  <hasParameter rdf:resource="#CheckAvailability_time"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckAvailability</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckAvailability</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ListEvents">
+  <rdf:type rdf:resource="#Operation"/>
+  <hasEndpoint rdf:resource="#ListEventsEndpoint"/>
+  <hasParameter rdf:resource="#ListEvents_date"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ListEvents</rdfs:label>
+  <operationId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ListEvents</operationId>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeetingEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeetingEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/calendar/meetings/create</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeeting_title">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting_title</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">title</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeeting_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeeting_time">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting_time</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">time</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CreateMeeting_participant">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CreateMeeting_participant</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">participant</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelMeetingEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelMeetingEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/calendar/meetings/cancel</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CancelMeeting_meetingId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CancelMeeting_meetingId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">meetingId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UpdateMeetingEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeetingEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/calendar/meetings/update</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">POST</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UpdateMeeting_meetingId">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeeting_meetingId</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">meetingId</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UpdateMeeting_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeeting_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UpdateMeeting_time">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UpdateMeeting_time</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">time</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckAvailabilityEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckAvailabilityEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/calendar/availability</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckAvailability_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckAvailability_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#CheckAvailability_time">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CheckAvailability_time</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">time</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</isRequired>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ListEventsEndpoint">
+  <rdf:type rdf:resource="#Endpoint"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ListEventsEndpoint</rdfs:label>
+  <endpointPath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/calendar/events</endpointPath>
+  <httpMethod rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GET</httpMethod>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ListEvents_date">
+  <rdf:type rdf:resource="#Parameter"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ListEvents_date</rdfs:label>
+  <parameterName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">date</parameterName>
+  <parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">string</parameterType>
+  <isRequired rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</isRequired>
+</owl:NamedIndividual>
+
 
 </rdf:RDF>

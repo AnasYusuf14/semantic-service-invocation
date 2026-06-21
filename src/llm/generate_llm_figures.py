@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-RESULTS_FILE = BASE_DIR / "results" / "embedding" / "embedding_results.csv"
-FIGURES_DIR = BASE_DIR / "figures" / "embedding"
+RESULTS_FILE = BASE_DIR / "results" / "llm" / "llm_results.csv"
+FIGURES_DIR = BASE_DIR / "figures" / "llm"
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -36,13 +36,13 @@ def generate_metric_accuracy_chart(rows):
     plt.bar(labels, values)
     plt.ylim(0, 100)
     plt.ylabel("Accuracy (%)")
-    plt.title("Embedding-Based Accuracy by Metric")
+    plt.title("Direct LLM Accuracy by Metric")
 
     for i, value in enumerate(values):
         plt.text(i, value + 1, f"{value:.1f}%", ha="center")
 
     plt.tight_layout()
-    plt.savefig(FIGURES_DIR / "embedding_metrics.png", dpi=300)
+    plt.savefig(FIGURES_DIR / "llm_metrics.png", dpi=300)
     plt.close()
 
 
@@ -70,13 +70,13 @@ def generate_domain_accuracy_chart(rows):
     plt.bar(labels, values)
     plt.ylim(0, 100)
     plt.ylabel("Intent Accuracy (%)")
-    plt.title("Embedding-Based Intent Accuracy by Domain")
+    plt.title("Direct LLM Intent Accuracy by Domain")
 
     for i, value in enumerate(values):
         plt.text(i, value + 1, f"{value:.1f}%", ha="center")
 
     plt.tight_layout()
-    plt.savefig(FIGURES_DIR / "embedding_domain_accuracy.png", dpi=300)
+    plt.savefig(FIGURES_DIR / "llm_domain_accuracy.png", dpi=300)
     plt.close()
 
 
@@ -91,9 +91,9 @@ def generate_success_failure_pie(rows):
         autopct="%1.1f%%",
         startangle=90
     )
-    plt.title("Embedding-Based End-to-End Success vs Failure")
+    plt.title("Direct LLM End-to-End Success vs Failure")
     plt.tight_layout()
-    plt.savefig(FIGURES_DIR / "embedding_success_failure.png", dpi=300)
+    plt.savefig(FIGURES_DIR / "llm_success_failure.png", dpi=300)
     plt.close()
 
 
@@ -104,7 +104,7 @@ def main():
     generate_domain_accuracy_chart(rows)
     generate_success_failure_pie(rows)
 
-    print("Embedding figures generated successfully.")
+    print("Direct LLM figures generated successfully.")
     print(f"Saved in: {FIGURES_DIR}")
 
 

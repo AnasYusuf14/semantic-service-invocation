@@ -51,3 +51,5 @@ dist/
 OS files
 
 Thumbs.db
+.env
+.env.*
