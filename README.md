@@ -1,64 +1,41 @@
-# LLM-Based Semantic Service Invocation
+# Semantic Service Invocation with Large Language Models and Ontology Validation
 
-## 1. Project Goal
+## Overview
 
-This project investigates how successfully natural language user requests can be transformed into correct semantic API service calls.
+This repository presents a comparative study on **semantic service invocation from natural language**. The project investigates how user requests expressed in natural language can be transformed into correct API service calls and evaluates the impact of **ontology-guided semantic validation** on improving the reliability of Large Language Model (LLM) predictions.
 
-Given a natural language query, the system predicts:
-
-* Service domain
-* Service intent (operation)
-* API endpoint
-* Required parameters
-* Ontology concept
-
-The project compares multiple service invocation approaches and evaluates their performance.
+The proposed framework combines **LLMs** with an **OWL-based ontology validation layer** to detect semantic inconsistencies, normalize parameter names, validate required and optional parameters, and safely correct structured service invocations.
 
 ---
 
-# 2. Research Problem
+# Research Question
 
-**How successful is automatic semantic service invocation generation from natural language user requests?**
-
----
-
-# 3. Project Components
-
-The project consists of:
-
-1. OpenAPI service specifications
-2. Natural language dataset
-3. Ontology-based semantic model
-4. Rule-Based baseline
-5. Embedding-Based similarity matching
-6. Direct LLM service selection
-7. LLM + Ontology validation
-8. Accuracy and error analysis
+> **Can ontology-based semantic validation improve the reliability and correctness of LLM-generated API service invocations?**
 
 ---
 
-# 4. API Domains
+# Main Contributions
 
-The project contains five independent API domains:
+* Design of an OpenAPI-based multi-domain semantic service benchmark.
+* Construction of a 300-query natural language dataset.
+* Development of an OWL ontology describing domains, operations, endpoints, and parameters.
+* Implementation and comparison of four semantic service invocation approaches:
 
-* Weather
-* Travel
-* Product
-* Order
-* Calendar
+  * Rule-Based Intent Mapping
+  * Embedding-Based Semantic Matching
+  * Direct LLM Service Selection
+  * LLM + Ontology Validation and Safe Semantic Correction
+* Comprehensive experimental evaluation and error analysis.
 
 ---
 
-# 5. Current Project Structure
+# Project Structure
 
-```
+```text
 Semantic-Service-Invocation/
 
 ├── dataset/
 │   └── service_dataset.csv
-│
-├── figures/
-│   └── rule_based/
 │
 ├── ontology/
 │   └── service_ontology.owl
@@ -70,55 +47,25 @@ Semantic-Service-Invocation/
 │   ├── order_api.yaml
 │   └── calendar_api.yaml
 │
-├── paper/
+├── src/
+│   ├── rule_based/
+│   ├── embedding/
+│   ├── llm/
+│   ├── ontology_validation/
+│   └── evaluation/
 │
 ├── results/
-│   └── rule_based/
 │
-├── src/
-│   └── rule_based/
-│       ├── rule_based_mapper.py
-│       ├── evaluate_rule_based.py
-│       └── generate_rule_based_figures.py
+├── figures/
 │
-└── PROJECT_PLAN.md
+└── paper/
 ```
 
 ---
 
-# 6. Completed Work
+# Service Domains
 
-## 6.1 OpenAPI Specifications
-
-Status: ✅ Completed
-
-Created:
-
-* weather_api.yaml
-* travel_api.yaml
-* product_api.yaml
-* order_api.yaml
-* calendar_api.yaml
-
-Each API contains multiple operations with endpoints and parameters.
-
----
-
-## 6.2 Natural Language Dataset
-
-Status: ✅ Completed
-
-Created:
-
-```
-dataset/service_dataset.csv
-```
-
-Dataset size:
-
-* 300 queries
-
-Five domains:
+The benchmark contains five independent service domains:
 
 * Weather
 * Travel
@@ -126,222 +73,164 @@ Five domains:
 * Order
 * Calendar
 
-Each record contains:
-
-* query
-* domain
-* intent
-* endpoint
-* parameters
-* ontology_concept
-
-The dataset includes:
-
-* Easy queries
-* Medium paraphrased queries
-* Hard semantic queries
-
-to enable a fair comparison between methods.
+Each domain is described using OpenAPI specifications and represented in the ontology.
 
 ---
 
-## 6.3 Ontology
+# Dataset
 
-Status: ✅ Completed
+The benchmark dataset contains:
 
-Created:
+* **300 natural language queries**
+* **5 service domains**
+* **25 operations**
+* Ground-truth annotations for:
 
-```
-ontology/service_ontology.owl
-```
+  * Domain
+  * Intent
+  * Endpoint
+  * Parameters
+  * Ontology concept
 
-Verified successfully in Protégé.
-
-Ontology contains:
-
-* ServiceDomain classes
-* Operation classes
-* Endpoint classes
-* Parameter classes
-
-Including semantic relationships between them.
+The dataset includes simple requests, paraphrases, and semantically diverse formulations to provide a realistic evaluation scenario.
 
 ---
 
-## 6.4 Rule-Based Intent Mapping
+# Ontology
 
-Status: ✅ Completed
+The project includes an OWL ontology modeling:
 
-Implemented:
+* Service Domains
+* Operations
+* Endpoints
+* Parameters
 
-```
-src/rule_based/rule_based_mapper.py
-```
+The ontology additionally supports:
 
-Features:
+* Required parameter validation
+* Optional parameter validation
+* Semantic parameter normalization through alias mapping
 
-* Dynamic service catalog loading
-* Keyword-based intent prediction
-* Endpoint prediction
-* Ontology concept prediction
-* Basic parameter extraction
+The ontology is loaded at runtime using **Owlready2** and acts as the semantic validation layer of the proposed system.
 
 ---
 
-## 6.5 Rule-Based Evaluation
+# Compared Approaches
 
-Status: ✅ Completed
+## 1. Rule-Based Intent Mapping
 
-Implemented:
+Uses manually defined keyword rules and regular expressions to identify intents and extract parameters.
 
-```
-src/rule_based/evaluate_rule_based.py
-```
+---
 
-Evaluated on the complete dataset.
+## 2. Embedding-Based Semantic Matching
 
-Metrics computed:
+Uses Sentence-Transformer embeddings (`all-MiniLM-L6-v2`) with cosine similarity retrieval to identify the closest semantic operation.
+
+---
+
+## 3. Direct LLM Service Selection
+
+Uses OpenAI `gpt-4o-mini` to predict:
+
+* Domain
+* Intent
+* Endpoint
+* Parameters
+* Ontology concept
+
+directly from natural language queries.
+
+---
+
+## 4. LLM + Ontology Validation (Proposed Method)
+
+The proposed framework augments LLM predictions with ontology-guided validation and safe semantic correction.
+
+The ontology:
+
+* validates domains,
+* validates endpoints,
+* validates ontology concepts,
+* checks required parameters,
+* tolerates optional parameters,
+* normalizes parameter aliases,
+* detects hallucinated parameter names.
+
+Importantly, the ontology **never changes the predicted intent**, ensuring safe and deterministic correction.
+
+---
+
+# Evaluation Metrics
+
+The following metrics are computed:
 
 * Domain Accuracy
 * Intent Accuracy
 * Endpoint Accuracy
 * Parameter Accuracy
-* Ontology Accuracy
-* End-to-End Accuracy
+* End-to-End Task Success
 
-Results are exported to:
+Ontology-specific diagnostics include:
 
-```
-results/rule_based/rule_based_results.csv
-```
-
----
-
-## 6.6 Rule-Based Figures
-
-Status: ✅ Completed
-
-Implemented:
-
-```
-src/rule_based/generate_rule_based_figures.py
-```
-
-Generated visualizations stored in:
-
-```
-figures/rule_based/
-```
-
-Including:
-
-* Metrics Accuracy
-* Domain Accuracy
-* Success vs Failure
-
----
-
-# 7. Experimental Methods
-
-The project compares four approaches.
-
-## Method 1
-
-✅ Rule-Based Intent Mapping
-
-Completed.
-
----
-
-## Method 2
-
-Embedding-Based Similarity Matching
-
-Status:
-
-⬜ Not implemented yet.
-
----
-
-## Method 3
-
-Direct LLM Service Selection
-
-Status:
-
-⬜ Not implemented yet.
-
----
-
-## Method 4
-
-LLM + Ontology Validation
-
-Status:
-
-⬜ Not implemented yet.
-
----
-
-# 8. Evaluation Metrics
-
-The following metrics will be compared across all methods:
-
-* Domain Accuracy
-* Intent Accuracy
-* Endpoint Accuracy
-* Parameter Accuracy
-* Ontology Accuracy
-* End-to-End Accuracy
 * Hallucination Rate
+* Missing Parameter Rate
+* Ontology Inconsistency Rate
 
 ---
 
-# 9. Error Categories
+# Final Experimental Results
 
-Errors are classified as:
+| Method             | Domain     | Intent     | Endpoint   | Parameter  | End-to-End |
+| ------------------ | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Rule-Based         | 50.00%     | 43.00%     | 43.00%     | 12.33%     | 10.33%     |
+| Embedding-Based    | 93.67%     | 62.33%     | 62.33%     | 16.67%     | 11.00%     |
+| Direct LLM         | 99.00%     | 95.33%     | 95.33%     | 40.67%     | 39.33%     |
+| **LLM + Ontology** | **99.33%** | **95.33%** | **95.33%** | **65.67%** | **62.33%** |
 
-* Wrong domain
-* Wrong intent
-* Wrong endpoint
-* Wrong parameters
-* Ontology inconsistency
-* Hallucinated service or parameter
-
----
-
-# 10. Remaining Tasks
-
-The remaining implementation order is:
-
-1. Embedding-Based Similarity Matching
-2. Embedding Evaluation
-3. Embedding Figures
-4. Direct LLM Service Selection
-5. LLM Evaluation
-6. LLM Figures
-7. LLM + Ontology Validation
-8. Final Comparative Evaluation
-9. Final Figures and Tables
-10. Research Paper
-11. Presentation
-12. Final Demonstration
+The ontology-enhanced approach achieves the highest overall reliability, particularly in parameter correctness and end-to-end task success.
 
 ---
 
-# 11. Current Progress
+# Technologies
 
-Estimated overall project completion:
+* Python 3.11
+* OpenAI GPT-4o-mini
+* Owlready2
+* Sentence Transformers
+* OpenAPI 3.0.3
+* OWL Ontology
+* Matplotlib
+* Pandas
 
-**≈ 45% completed**
+---
 
-Major infrastructure has been successfully implemented, including:
+# Research Paper
+
+The complete research paper describing the methodology, experiments, and results is available in the `paper/` directory.
+
+---
+
+# Reproducibility
+
+All experiments can be reproduced using the provided:
 
 * OpenAPI specifications
 * Dataset
 * Ontology
-* Rule-Based baseline
-* Rule-Based evaluation
-* Initial result visualizations
+* Source code
+* Evaluation scripts
+* Result files
+* Generated figures
 
-The remaining work focuses on semantic matching methods and comparative evaluation.
+---
+
+# Author
+
+**ANAS ALSHOURAFA**
+
+Department of Computer Engineering
+
+Çanakkale Onsekiz Mart University
+
+Çanakkale, Türkiye
